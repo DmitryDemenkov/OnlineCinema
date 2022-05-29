@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using OnlineCinema.Web.Services;
+using OnlineCinema.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +14,24 @@ namespace OnlineCinema.Web.Pages
     {
         private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        private DbFilmService filmService;
+
+        public IEnumerable<Film> Films { get; private set; }
+
+        public IndexModel(ILogger<IndexModel> logger, DbFilmService dbFilmService)
         {
             _logger = logger;
+            filmService = dbFilmService;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-
+            Films = filmService.GetPopularFilms(out string errorMsg);
+            if (Films == null)
+            {
+                return Redirect($"/Error?Error={errorMsg}");
+            }
+            return Page();
         }
     }
 }
