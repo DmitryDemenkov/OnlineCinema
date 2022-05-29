@@ -7,6 +7,6 @@ namespace OnlineCinema.Web.RepositoryInterfaces
 {
     public interface IRepository<T>
     {
-        T GetById();
+        T GetById(int id);
     }
 }

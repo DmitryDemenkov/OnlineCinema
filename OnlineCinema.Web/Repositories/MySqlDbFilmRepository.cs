@@ -11,7 +11,7 @@ namespace OnlineCinema.Web.Repositories
 {
     public class MySqlDbFilmRepository : IFilmRepository
     {
-        public Film GetById()
+        public Film GetById(int id)
         {
             throw new NotImplementedException();
         }
