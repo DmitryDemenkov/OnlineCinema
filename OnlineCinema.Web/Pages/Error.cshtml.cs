@@ -15,6 +15,9 @@ namespace OnlineCinema.Web.Pages
     {
         public string RequestId { get; set; }
 
+        [BindProperty (Name = "Error", SupportsGet = true)]
+        public string ErrorMessage { get; set; }
+
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
         private readonly ILogger<ErrorModel> _logger;
