@@ -40,7 +40,7 @@ namespace OnlineCinema.Web.Pages
         {
             if (Login == null || Password == null)
             {
-                Message = "Необходимо ввести логин и пароль";
+                Message = "РќРµРѕР±С…РѕРґРёРјРѕ РІРІРµСЃС‚Рё Р»РѕРіРёРЅ Рё РїР°СЂРѕР»СЊ";
                 return Page();
             }
             else
@@ -48,7 +48,7 @@ namespace OnlineCinema.Web.Pages
                 User user = userService.GetByLogin(Login, Password, out int errorCode);
                 if (user == null && errorCode == 0)
                 {
-                    Message = "Неверно указан логин или пароль";
+                    Message = "РќРµРІРµСЂРЅРѕ СѓРєР°Р·Р°РЅ Р»РѕРіРёРЅ РёР»Рё РїР°СЂРѕР»СЊ";
                     return Page();
                 }
                 else if (errorCode != 0)
