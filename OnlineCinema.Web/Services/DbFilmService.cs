@@ -17,17 +17,17 @@ namespace OnlineCinema.Web.Services
 
         private IFilmRepository filmRepository;
 
-        public IEnumerable<Film> GetPopularFilms(out string errorMsg)
+        public IEnumerable<Film> GetPopularFilms(out int errorCode)
         {
             try
             {
                 IEnumerable<Film> films = filmRepository.GetPopular();
-                errorMsg = "No Mistakes";
+                errorCode = 0;
                 return films;
             }
             catch (OnlineCinemaException exception)
             {
-                errorMsg = exception.Message;
+                errorCode = exception.ErrorCode;
                 return null;
             }
         }

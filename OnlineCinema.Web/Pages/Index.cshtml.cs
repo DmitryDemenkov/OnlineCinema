@@ -26,10 +26,10 @@ namespace OnlineCinema.Web.Pages
 
         public IActionResult OnGet()
         {
-            Films = filmService.GetPopularFilms(out string errorMsg);
+            Films = filmService.GetPopularFilms(out int errorCode);
             if (Films == null)
             {
-                return Redirect($"/Error?Error={errorMsg}");
+                return Redirect($"/Error?DbError={errorCode}");
             }
             return Page();
         }

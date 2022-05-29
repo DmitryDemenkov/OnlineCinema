@@ -14,10 +14,15 @@
     </p>
 }
 
-@if (Model.ErrorMessage != null)
+@if (Model.DbErrorCode != null)
 {
     <h3>DataBase Error</h3>
-    <p>@Model.ErrorMessage</p>
+    <p>
+        DataBase Error Code: <strong>@Model.DbErrorCode</strong>
+    </p>
+    <p>
+        <a href="https://dev.mysql.com/doc/mysql-errors/8.0/en/server-error-reference.html">See More</a>
+    </p>
 }
 
 <h3>Development Mode</h3>
