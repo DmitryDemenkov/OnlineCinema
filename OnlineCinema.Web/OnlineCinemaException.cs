@@ -20,6 +20,6 @@ namespace OnlineCinema.Web
         protected OnlineCinemaException(System.Runtime.Serialization.SerializationInfo info,
             System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 
-        public int ErrorCode { get; set; }
+        public int ErrorCode { get; private set; }
     }
 }
