@@ -43,6 +43,5 @@ namespace OnlineCinema.Web.Models
         public int RentalPrice { get; private set; }
 
         public int RentalDuration { get; private set; }
-
     }
 }
