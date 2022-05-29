@@ -32,7 +32,7 @@ namespace OnlineCinema.Web.Repositories
             string commandString = @$"
                             SELECT iduser, email, birth_date
                             FROM users
-                            WHERE login='$login' AND `password`='$password'";
+                            WHERE login=@login AND `password`=@password";
 
             using MySqlConnection connection = MySqlDbUtil.GetConnection();
 
@@ -41,8 +41,8 @@ namespace OnlineCinema.Web.Repositories
             try
             {
                 using MySqlCommand command = new MySqlCommand(commandString, connection);
-                command.Parameters.AddWithValue("$login", login);
-                command.Parameters.AddWithValue("$password", password);
+                command.Parameters.AddWithValue("@login", login);
+                command.Parameters.AddWithValue("@password", password);
 
                 using MySqlDataReader reader = command.ExecuteReader();
 

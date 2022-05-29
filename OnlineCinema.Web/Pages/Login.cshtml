@@ -1,0 +1,26 @@
+﻿@page
+@model OnlineCinema.Web.Pages.LoginModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="display-4">
+    <h1>Вход</h1>
+</div>
+
+<form method="post">
+    <div class="login-field">
+        <p1>
+            Логин
+            <input asp-for="Login">
+        </p1>
+        <p1>
+            Пароль
+            <input asp-for="Password">
+        </p1>
+        <p1>
+            <input type="submit" value="Войти" />
+        </p1>
+        <p1>@Model.Message</p1>
+    </div>
+</form>
