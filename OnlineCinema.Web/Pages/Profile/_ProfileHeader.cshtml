@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<div class="profile-header">
+    <div class="profile-header-bar">
+        <h1>Личный кабинет</h1>
+        <ul>
+            <li><a asp-page="./Index">Профиль</a></li>
+            <li><a asp-page="./Library">Библиотека</a></li>
+            <li><a asp-page="./History">История</a></li>
+            <li><a asp-page="./Exit">Выход</a></li>
+        </ul>
+    </div>
+    <div class="profile-body">
+        @RenderBody()
+    </div>
+</div>

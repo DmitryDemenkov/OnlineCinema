@@ -1,0 +1,16 @@
+﻿@page
+@model OnlineCinema.Web.Pages.Profile.ExitModel
+@{
+    ViewData["Title"] = "Exit";
+    Layout = "_ProfileHeader";
+}
+
+<div>
+    <h1>Вы действительно хотите выйти?</h1>
+     <form method="post">
+         <div class="profile-chapter">
+             <input type="submit" asp-page-handler="Yes" value="Да" />
+             <input type="submit" asp-page-handler="No" value="Нет" />
+         </div>
+     </form>
+</div>

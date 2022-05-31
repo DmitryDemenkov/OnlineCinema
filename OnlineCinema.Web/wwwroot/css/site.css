@@ -82,3 +82,47 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+.profile-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    position: fixed;
+    height: 80%;
+}
+
+.profile-header-bar {
+    width: max-content;
+    margin-right: 5rem;
+    border-block: 1px solid #dee2e6 !important;
+    border-inline: 1px solid #dee2e6 !important;
+    box-shadow: 5px 0rem 0.75rem 0px rgb(0 0 0 / 5%);
+}
+
+.profile-header-bar ul {
+    list-style-type: none;
+    padding-inline-start: 1rem;
+}
+
+.profile-header-bar li {
+    margin-bottom: 1rem;
+}
+
+.profile-header-bar h1 {
+    margin-block: 1rem;
+    margin-inline: 1rem;
+    font-size: 1.5rem;
+}
+
+.profile-body {
+    margin-top: 1rem;
+}
+
+.profile-body h1 {
+    margin-bottom: 1rem;
+}
+
+.profile-chapter input{
+    width: 45%;
+}

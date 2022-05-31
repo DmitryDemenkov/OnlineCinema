@@ -29,9 +29,9 @@ namespace OnlineCinema.Web.Pages
 
         public ActionResult OnGet()
         {
-            if (Request.Cookies.ContainsKey("IdentifiedUser"))
+            if (Request.Cookies.ContainsKey("User"))
             {
-                return RedirectToPage("/User");
+                return RedirectToPage("/Profile/Index");
             }
             return Page();
         }
@@ -57,8 +57,8 @@ namespace OnlineCinema.Web.Pages
                 }
                 else
                 {
-                    Response.Cookies.Append<User>("IdentifiedUser", user);
-                    return RedirectToPage("/User");
+                    Response.Cookies.Append<User>("User", user);
+                    return RedirectToPage("/Profile/Index");
                 }
             }
         }
