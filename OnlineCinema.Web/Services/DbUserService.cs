@@ -25,7 +25,7 @@ namespace OnlineCinema.Web.Services
                 errorCode = 0;
                 return user;
             }
-            catch (OnlineCinemaException exception)
+            catch (RepositoryException exception)
             {
                 errorCode = exception.ErrorCode;
                 return null;

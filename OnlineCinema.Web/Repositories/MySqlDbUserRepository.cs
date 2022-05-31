@@ -59,7 +59,7 @@ namespace OnlineCinema.Web.Repositories
             }
             catch (MySqlException exception)
             {
-                throw new OnlineCinemaException(exception.Number, exception.Message);
+                throw new RepositoryException(exception.Number, exception.Message);
             }
         }
 
