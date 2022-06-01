@@ -13,7 +13,44 @@ namespace OnlineCinema.Web.Repositories
     {
         public User Append(User newUser)
         {
-            throw new NotImplementedException();
+            User user = null;
+            string commandString = "INSERT INTO users ";
+
+            if (newUser.BirthDate != default)
+                commandString += "(login, `password`, email, birth_date) VALUES (@login, @password, @email, @birth_date)";
+
+            else
+                commandString += "(login, `password`, email) VALUES (@login, @password, @email)";
+
+            using MySqlConnection connection = MySqlDbUtil.GetConnection();
+            connection.Open();
+
+            try
+            {
+                using MySqlCommand command = new MySqlCommand(commandString, connection);
+                command.Parameters.AddWithValue("@login", newUser.Login);
+                command.Parameters.AddWithValue("@password", newUser.Password);
+                command.Parameters.AddWithValue("@email", newUser.Email);
+                command.Parameters.AddWithValue("@birth_date", newUser.BirthDate.ToString("yyyy-MM-dd"));
+
+                command.ExecuteNonQuery();
+                long userId = command.LastInsertedId;
+
+                user = new User(newUser.Login, newUser.Password, newUser.Email, newUser.BirthDate, userId);
+                return user;
+            }
+            catch (MySqlException exception)
+            {
+                int errorCode = exception.Number;
+                
+                if (errorCode == 1062 && exception.Message.Contains("login_UNIQUE"))
+                    errorCode = -1;
+
+                if (errorCode == 1062 && exception.Message.Contains("email_UNIQUE"))
+                    errorCode = -2;
+
+                throw new RepositoryException(errorCode, exception.Message);
+            }
         }
 
         public void Delete(User user)
@@ -52,7 +89,7 @@ namespace OnlineCinema.Web.Repositories
                     string email = reader.GetString(1);
                     DateTime birthdate = reader.GetDateTime(2);
 
-                    user = new User(idUser, login, password, email, birthdate);
+                    user = new User(login, password, email, birthdate, idUser);
                 }
                 
                 return user;

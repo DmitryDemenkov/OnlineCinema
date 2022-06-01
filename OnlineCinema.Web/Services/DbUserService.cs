@@ -31,5 +31,22 @@ namespace OnlineCinema.Web.Services
                 return null;
             }
         }
+
+        public User AddNewUser(string login, string password, string email,
+                               out int errorCode, DateTime birthDate = default)
+        {
+            User newUser = new User(login, password, email, birthDate);
+            try
+            {
+                User user = userRepository.Append(newUser);
+                errorCode = 0;
+                return user;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+                return null;
+            }
+        }
     }
 }

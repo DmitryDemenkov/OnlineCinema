@@ -7,7 +7,7 @@ namespace OnlineCinema.Web.Models
 {
     public class User
     {
-        public User(int id, string login, string password, string email, DateTime birthDate) 
+        public User(string login, string password, string email, DateTime birthDate = default, long id = 0) 
         {
             Id = id;
             Login = login;
@@ -16,7 +16,7 @@ namespace OnlineCinema.Web.Models
             BirthDate = birthDate;
         }
 
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         public string Login { get; private set; }
 
