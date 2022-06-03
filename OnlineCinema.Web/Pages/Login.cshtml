@@ -12,11 +12,15 @@
     <div class="login-field">
         <p1>
             Логин
-            <input asp-for="Login">
+            <input pattern="[A-Za-z0-9]{3,50}" 
+                   title="Логин может содержать только буквы и цифры и быть длиной от 3 до 50 символов"
+                   asp-for="Login" />
         </p1>
         <p1>
             Пароль
-            <input asp-for="Password">
+            <input pattern="[A-Za-z0-9]{3,50}" 
+                   title="Пароль может содержать только буквы и цифры и быть длиной от 3 до 50 символов"
+                   asp-for="Password" />
         </p1>
         <p1>
             <input type="submit" value="Войти" />

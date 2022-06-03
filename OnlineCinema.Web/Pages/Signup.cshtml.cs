@@ -45,8 +45,11 @@ namespace OnlineCinema.Web.Pages
 
         public IActionResult OnPost()
         {
-            if (!IsInputDataCorrect())
+            if (Login == null || Password == null || Email == null)
+            {
+                Message = "Необходимо ввести логин, пароль и адрес электронной почты";
                 return Page();
+            }
             else
             {
                 User user = userService.AddNewUser(Login, Password, Email, out int errorCode, BirthDate);
@@ -65,26 +68,6 @@ namespace OnlineCinema.Web.Pages
             }
         }
 
-        private bool IsInputDataCorrect()
-        {
-            string pattern = @"\w{3,50}";
-            if (Login == null || Password == null || Email == null)
-            {
-                Message = "Необходимо ввести логин, пароль и адрес электронной почты";
-                return false;
-            }
-            else if (!Regex.IsMatch(Login, pattern))
-            {
-                Message = "Логин может содержать только символы и цифры и быть длинной от 3 до 50 символов";
-                return false;
-            }
-            else if (!Regex.IsMatch(Password, pattern))
-            {
-                Message = "Пароль может содержать только символы и цифры и быть длинной от 3 до 50 символов";
-                return false;
-            }
-            return true;
-        }
 
         private bool HasDublicateData(int errorCode)
         {
