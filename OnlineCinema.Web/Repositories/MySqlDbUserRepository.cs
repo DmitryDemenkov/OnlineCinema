@@ -41,13 +41,7 @@ namespace OnlineCinema.Web.Repositories
             }
             catch (MySqlException exception)
             {
-                int errorCode = exception.Number;
-                
-                if (errorCode == 1062 && exception.Message.Contains("login_UNIQUE"))
-                    errorCode = -1;
-
-                if (errorCode == 1062 && exception.Message.Contains("email_UNIQUE"))
-                    errorCode = -2;
+                int errorCode = GetDuplicateErrorCode(exception.Number, exception.Message);
 
                 throw new RepositoryException(errorCode, exception.Message);
             }
@@ -102,7 +96,47 @@ namespace OnlineCinema.Web.Repositories
 
         public User Update(User user)
         {
-            throw new NotImplementedException();
+            string commandString = @"UPDATE users 
+                                     SET login = @login,
+                                        `password` = @password,
+                                         email = @email,
+                                         birth_date = @birth_date
+                                     WHERE (iduser = @iduser)";
+
+            using var connection = MySqlDbUtil.GetConnection();
+            connection.Open();
+
+            try
+            {
+                using MySqlCommand command = new MySqlCommand(commandString, connection);
+                command.Parameters.AddWithValue("@login", user.Login);
+                command.Parameters.AddWithValue("@password", user.Password);
+                command.Parameters.AddWithValue("@email", user.Email);
+                command.Parameters.AddWithValue("@birth_date", user.BirthDate.ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("@iduser", user.Id);
+
+                command.ExecuteNonQuery();
+                return user;
+            }
+            catch (MySqlException exception)
+            {
+                int errorCode = GetDuplicateErrorCode(exception.Number, exception.Message);
+
+                throw new RepositoryException(errorCode, exception.Message);
+            }
+        }
+
+        private int GetDuplicateErrorCode(int errorNumber, string errorMessage)
+        {
+            int errorCode = errorNumber;
+
+            if (errorCode == 1062 && errorMessage.Contains("login_UNIQUE"))
+                errorCode = -1;
+
+            if (errorCode == 1062 && errorMessage.Contains("email_UNIQUE"))
+                errorCode = -2;
+
+            return errorCode;
         }
     }
 }

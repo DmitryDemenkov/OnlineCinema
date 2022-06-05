@@ -48,5 +48,20 @@ namespace OnlineCinema.Web.Services
                 return null;
             }
         }
+
+        public User UpdateUser(User user, out int errorCode)
+        {
+            try
+            {
+                User updatedUser = userRepository.Update(user);
+                errorCode = 0;
+                return updatedUser;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+                return null;
+            }
+        }
     }
 }
