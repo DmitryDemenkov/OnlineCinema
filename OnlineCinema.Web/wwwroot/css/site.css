@@ -83,6 +83,17 @@ body {
     flex-direction: column;
 }
 
+.login-field p2 {
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.login-field p2 input {
+    margin-right: 10px;
+}
+
 .profile-header {
     display: flex;
     flex-direction: row;
