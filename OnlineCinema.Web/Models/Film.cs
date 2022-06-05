@@ -44,4 +44,20 @@ namespace OnlineCinema.Web.Models
 
         public int RentalDuration { get; private set; }
     }
+
+    public struct FilmToLibrary
+    {
+        public FilmToLibrary(Film film, string type, int timeLeft)
+        {
+            Film = film;
+            Type = type;
+            TimeLeft = timeLeft;
+        }
+
+        public Film Film { get; private set; }
+
+        public string Type { get; private set; }
+
+        public int TimeLeft { get; private set;  }
+    }
 }
