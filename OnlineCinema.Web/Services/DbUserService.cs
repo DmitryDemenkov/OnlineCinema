@@ -13,9 +13,12 @@ namespace OnlineCinema.Web.Services
         public DbUserService()
         {
             userRepository = new MySqlDbUserRepository();
+            filmRepository = new MySqlDbFilmRepository();
         }
 
         private IUserRepository userRepository;
+
+        private IFilmRepository filmRepository;
 
         public User GetByLogin(string login, string password, out int errorCode)
         {
@@ -56,6 +59,21 @@ namespace OnlineCinema.Web.Services
                 User updatedUser = userRepository.Update(user);
                 errorCode = 0;
                 return updatedUser;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+                return null;
+            }
+        }
+
+        public IEnumerable<FilmToLibrary> GetUserLibrary(User user, out int errorCode)
+        {
+            try
+            {
+                IEnumerable<FilmToLibrary> films = filmRepository.GetByUser(user.Id);
+                errorCode = 0;
+                return films;
             }
             catch (RepositoryException exception)
             {

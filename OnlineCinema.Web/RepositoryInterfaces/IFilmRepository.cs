@@ -9,5 +9,7 @@ namespace OnlineCinema.Web.RepositoryInterfaces
     public interface IFilmRepository : IRepository<Film>
     {
         IEnumerable<Film> GetPopular();
+
+        IEnumerable<FilmToLibrary> GetByUser(long iduser);
     }
 }
