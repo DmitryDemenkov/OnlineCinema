@@ -13,9 +13,12 @@ namespace OnlineCinema.Web.Services
         public DbFilmService()
         {
             filmRepository = new MySqlDbFilmRepository();
+            genreRepository = new MySqlDbGenreRepository();
         }
 
         private IFilmRepository filmRepository;
+
+        private IGenreRepository genreRepository;
 
         public IEnumerable<Film> GetPopularFilms(out int errorCode)
         {
@@ -39,6 +42,21 @@ namespace OnlineCinema.Web.Services
                 Film film = filmRepository.GetById(idfilm);
                 errorCode = 0;
                 return film;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+                return null;
+            }
+        }
+
+        public IEnumerable<Genre> GetGenres(int idfilm, out int errorCode)
+        {
+            try
+            {
+                IEnumerable<Genre> genres = genreRepository.GetByFilm(idfilm);
+                errorCode = 0;
+                return genres;
             }
             catch (RepositoryException exception)
             {
