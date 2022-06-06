@@ -1,0 +1,39 @@
+﻿@page
+@model OnlineCinema.Web.Pages.FilmModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Film";
+}
+
+<div class="display-1">
+    <h1>@Model.Film.Title</h1>
+</div>
+
+<div class="annotation">
+    <p1>@Model.Film.Annotation</p1>
+</div>
+
+<div class="film-block">
+    <div class="film-information">
+        <div class="film-information-item">
+            <h2>Информация</h2>
+            <ul>
+                <li>Категория: @Model.Film.Category</li>
+                <li>Дата выхода: @Model.Film.ReleaseDate.ToString("d MMMM yyyy")</li>
+                <li>Возрастной рейтинг: @Model.Film.AgeRestriction</li>
+            </ul>
+        </div>
+        <div>
+            <h2>@Model.Film.MiddleRating ★</h2>
+            <p1>Оценок: @Model.Film.RatingAmount</p1>
+        </div>
+    </div>
+</div>
+
+<div class="film-block">
+    <h2>Приобретение</h2>
+    <ul>
+        <li>Покупка: @Model.Film.PurchasePrice р.</li>
+        <li>Аренда: @Model.Film.RentalPrice р. на @Model.Film.RentalDuration ч.</li>
+    </ul>
+</div>

@@ -137,3 +137,21 @@ body {
 .profile-chapter input{
     width: 45%;
 }
+
+.annotation{
+    margin-bottom: 1rem;
+}
+
+.film-block{
+    margin-bottom: 1rem;
+}
+
+.film-information{
+    display: flex;
+    justify-content: left;
+    flex-direction: row;
+}
+
+.film-information-item {
+    margin-right: 5rem;
+}

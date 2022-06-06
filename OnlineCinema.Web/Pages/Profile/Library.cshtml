@@ -23,7 +23,7 @@
             @foreach (var film in Model.Films)
             {
                 <tr>
-                    <td><a asp-page="./Film" asp-route-id="@film.Film.Id">@film.Film.Title (@film.Film.ReleaseDate.Year)</a></td>
+                    <td><a asp-page="/Film" asp-route-id="@film.Film.Id">@film.Film.Title (@film.Film.ReleaseDate.Year)</a></td>
                     <td><p1>@film.Type</p1></td>
                     @if (film.Type == "Аренда")
                     {
