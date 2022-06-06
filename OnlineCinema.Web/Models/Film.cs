@@ -16,7 +16,8 @@ namespace OnlineCinema.Web.Models
         }
 
         public Film(int id, string title, string category, string annotation, DateTime releaseDate,
-                            int purchasePrise, int rentalPrice, int rentalDuration)
+                            int purchasePrise, int rentalPrice, int rentalDuration, string ageRestriction,
+                            float middleRating, int ratingAmount)
         {
             Id = id;
             Title = title;
@@ -26,6 +27,9 @@ namespace OnlineCinema.Web.Models
             PurchasePrice = purchasePrise;
             RentalPrice = rentalPrice;
             RentalDuration = rentalDuration;
+            AgeRestriction = ageRestriction;
+            MiddleRating = middleRating;
+            RatingAmount = ratingAmount;
         }
 
         public int Id { get; private set; }
@@ -43,6 +47,12 @@ namespace OnlineCinema.Web.Models
         public int RentalPrice { get; private set; }
 
         public int RentalDuration { get; private set; }
+
+        public string AgeRestriction { get; private set; }
+
+        public float MiddleRating { get; private set; }
+
+        public int RatingAmount { get; private set; }
     }
 
     public struct FilmToLibrary
