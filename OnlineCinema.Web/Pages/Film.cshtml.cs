@@ -15,6 +15,8 @@ namespace OnlineCinema.Web.Pages
 
         public Film Film { get; set; }
 
+        public IEnumerable<Genre> Genres { get; set; }
+
         [BindProperty(Name = "Id", SupportsGet = true)]
         public int idFilm { get; set; }
 
@@ -23,9 +25,19 @@ namespace OnlineCinema.Web.Pages
             FilmService = filmService;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
             Film = FilmService.GetFilm(idFilm, out int errorCode);
+
+            if (errorCode != 0)
+                return Redirect($"Error?DbError={errorCode}");
+
+            Genres = FilmService.GetGenres(idFilm, out errorCode);
+
+            if (errorCode != 0)
+                return Redirect($"Error?DbError={errorCode}");
+
+            return Page();
         }
     }
 }

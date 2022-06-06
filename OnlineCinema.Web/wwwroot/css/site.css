@@ -155,3 +155,7 @@ body {
 .film-information-item {
     margin-right: 5rem;
 }
+
+.film-block ul{
+    padding-inline-start: 20px;
+}
