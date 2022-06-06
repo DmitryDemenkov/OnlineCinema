@@ -13,7 +13,42 @@ namespace OnlineCinema.Web.Repositories
     {
         public Film GetById(int id)
         {
-            throw new NotImplementedException();
+            Film film = null;
+            string commandString = @"SELECT * FROM film_information WHERE idfilm=@idfilm";
+
+            using MySqlConnection connection = MySqlDbUtil.GetConnection();
+            connection.Open();
+
+            try
+            {
+                using MySqlCommand command = new MySqlCommand(commandString, connection);
+                command.Parameters.AddWithValue("@idfilm", id);
+
+                using MySqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    int idFilm = reader.GetInt32(0);
+                    string title = reader.GetString(1);
+                    string category = reader.GetString(2);
+                    string annotation = reader.GetString(3);
+                    DateTime releaseDate = reader.GetDateTime(4);
+                    int purchasePrice = reader.GetInt32(5);
+                    int rentalPrice = reader.GetInt32(6);
+                    int rentalDuration = reader.GetInt32(7);
+                    string ageRestriction = reader.GetString(8);
+                    float middleRating = reader.GetFloat(9);
+                    int ratingAmount = reader.GetInt32(10);
+
+                    film = new Film(idFilm, title, category, annotation, releaseDate, purchasePrice, 
+                                    rentalPrice, rentalDuration, ageRestriction, middleRating, ratingAmount);
+                }
+                return film;
+            }
+            catch (MySqlException exception)
+            {
+                throw new RepositoryException(exception.Number, exception.Message);
+            }
         }
 
         public IEnumerable<FilmToLibrary> GetByUser(long iduser)

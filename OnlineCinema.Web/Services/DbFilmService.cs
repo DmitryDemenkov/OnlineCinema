@@ -31,5 +31,20 @@ namespace OnlineCinema.Web.Services
                 return null;
             }
         }
+
+        public Film GetFilm(int idfilm, out int errorCode)
+        {
+            try
+            {
+                Film film = filmRepository.GetById(idfilm);
+                errorCode = 0;
+                return film;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+                return null;
+            }
+        }
     }
 }
