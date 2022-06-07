@@ -17,6 +17,8 @@ namespace OnlineCinema.Web.Pages
 
         public IEnumerable<Genre> Genres { get; set; }
 
+        public IEnumerable<Production> Productions { get; set; }
+
         [BindProperty(Name = "Id", SupportsGet = true)]
         public int idFilm { get; set; }
 
@@ -33,6 +35,11 @@ namespace OnlineCinema.Web.Pages
                 return Redirect($"Error?DbError={errorCode}");
 
             Genres = FilmService.GetGenres(idFilm, out errorCode);
+
+            if (errorCode != 0)
+                return Redirect($"Error?DbError={errorCode}");
+
+            Productions = FilmService.GetProductions(Film, out errorCode);
 
             if (errorCode != 0)
                 return Redirect($"Error?DbError={errorCode}");

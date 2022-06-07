@@ -139,7 +139,7 @@ body {
 }
 
 .annotation{
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 .film-block{
@@ -158,4 +158,13 @@ body {
 
 .film-block ul{
     padding-inline-start: 20px;
+}
+
+.card-line {
+    display: inline-flex;
+    overflow-x: auto;
+}
+
+.card-line .card {
+    min-width: fit-content;
 }
