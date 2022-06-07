@@ -133,5 +133,45 @@ namespace OnlineCinema.Web.Repositories
                 throw new RepositoryException(exception.Number, exception.Message);
             }
         }
+
+        public IEnumerable<Film> GetByGenre(int idgenre)
+        {
+            List<Film> films = new List<Film>();
+            string commandString = @"
+                            SELECT f.idfilm, f.title, f.category, f.release_date
+                            FROM films AS f
+                            JOIN genres_to_film ON genres_to_film.idfilm=f.idfilm
+                            JOIN genres ON genres.idgenre=genres_to_film.idgenre
+                            WHERE genres.idgenre=@idgenre
+                            LIMIT 100";
+
+            using MySqlConnection connection = MySqlDbUtil.GetConnection();
+
+            connection.Open();
+
+            try
+            {
+                using MySqlCommand command = new MySqlCommand(commandString, connection);
+                command.Parameters.AddWithValue("@idgenre", idgenre);
+
+                using MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int id = reader.GetInt32(0);
+                    string title = reader.GetString(1);
+                    string category = reader.GetString(2);
+                    DateTime releaseDate = reader.GetDateTime(3);
+
+                    films.Add(new Film(id, title, category, releaseDate));
+                }
+
+                return films;
+            }
+            catch (MySqlException exception)
+            {
+                throw new RepositoryException(exception.Number, exception.Message);
+            }
+        }
     }
 }
