@@ -56,7 +56,11 @@
             {
                 <div class="card">
                     <div class="card-header">
-                        <p1>@production.Person.Name</p1>
+                        <p1>
+                            <a asp-page="/Person" asp-route-id="@production.Person.Id" asp-route-name="@production.Person.Name">
+                                @production.Person.Name
+                            </a>
+                        </p1>
                     </div>
                     <div class="card-body">
                         <p1>@production.Post.Name<p1>

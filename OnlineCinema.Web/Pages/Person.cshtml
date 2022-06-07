@@ -1,0 +1,32 @@
+﻿@page
+@model OnlineCinema.Web.Pages.PersonModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Person";
+}
+
+<div class="display-1" style="margin-bottom: 2rem">
+    <h1>Фильмы @Model.Person.Name</h1>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Категория</th>
+            <th>Дата выхода</th>
+            <th>Роль</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var production in Model.Productions)
+         {
+            <tr>
+                <td><a asp-page="/Film" asp-route-id="@production.Film.Id">@production.Film.Title</a></td>
+                <td>@production.Film.Category</td>
+                <td>@production.Film.ReleaseDate.ToString("dd-MM-yyyy")</td>
+                <td>@production.Post.Name</td>
+            </tr>
+         }
+    </tbody>
+</table>
