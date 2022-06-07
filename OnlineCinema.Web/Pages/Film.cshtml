@@ -30,7 +30,9 @@
                 <ul>
                     @foreach (var genre in Model.Genres)
                     {
-                        <li>@genre.Name</li>
+                        <li>
+                            <a asp-page="/Genre" asp-route-id="@genre.Id" asp-route-name="@genre.Name">@genre.Name</a>
+                        </li>
                     }
                 </ul>
             </div>
