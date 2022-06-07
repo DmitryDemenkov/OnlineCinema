@@ -9,5 +9,7 @@ namespace OnlineCinema.Web.RepositoryInterfaces
     interface IProductionRepository
     {
         IEnumerable<Production> GetByFilm(Film film);
+
+        IEnumerable<Production> GetByPerson(Person person);
     }
 }

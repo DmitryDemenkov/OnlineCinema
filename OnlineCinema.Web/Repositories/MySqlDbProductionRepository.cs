@@ -55,5 +55,51 @@ namespace OnlineCinema.Web.Repositories
                 throw new RepositoryException(exception.Number, exception.Message);
             }
         }
+
+        public IEnumerable<Production> GetByPerson(Person person)
+        {
+            List<Production> productions = new List<Production>();
+            string commandString = @"
+                            SELECT films.idfilm, films.title, films.category,
+	                               films.release_date, posts.idpost, posts.`name`
+                            FROM productions
+                            JOIN persons ON persons.idperson=productions.idperson
+                            JOIN posts ON posts.idpost=productions.idpost
+                            JOIN films ON films.idfilm=productions.idfilm
+                            WHERE persons.idperson=@idperson
+                            ORDER BY films.release_date DESC";
+
+            using MySqlConnection connection = MySqlDbUtil.GetConnection();
+            connection.Open();
+
+            try
+            {
+                using MySqlCommand command = new MySqlCommand(commandString, connection);
+                command.Parameters.AddWithValue("@idperson", person.Id);
+
+                using MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int idfilm = reader.GetInt32(0);
+                    string filmTitle = reader.GetString(1);
+                    string category = reader.GetString(2);
+                    DateTime releaseDate = reader.GetDateTime(3);
+                    int idpost = reader.GetInt32(4);
+                    string postName = reader.GetString(5);
+
+                    Film film = new Film(idfilm, filmTitle, category, releaseDate);
+                    Post post = new Post(idpost, postName);
+
+                    productions.Add(new Production(film, person, post));
+                }
+
+                return productions;
+            }
+            catch (MySqlException exception)
+            {
+                throw new RepositoryException(exception.Number, exception.Message);
+            }
+        }
     }
 }
