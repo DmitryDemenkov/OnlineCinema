@@ -12,6 +12,8 @@ namespace OnlineCinema.Web.RepositoryInterfaces
 
         IEnumerable<FilmToLibrary> GetByUser(long iduser);
 
+        IEnumerable<FilmToOrder> GetByOrder(long idorder);
+
         IEnumerable<Film> GetByGenre(int idgenre);
     }
 }

@@ -13,7 +13,42 @@ namespace OnlineCinema.Web.Repositories
     {
         public Order GetById(int id)
         {
-            throw new NotImplementedException();
+            IFilmRepository filmRepository = new MySqlDbFilmRepository();
+            string getOrderString = @"
+                            SELECT o.idorder, o.`date`, o.iduser,
+                                   SUM(IF(film_to_order.`type`='Покупка', films.purchase_price, films.rental_price))
+                            FROM orders AS o
+                            JOIN film_to_order ON film_to_order.idorder=o.idorder
+                            JOIN films ON films.idfilm=film_to_order.idfilm
+                            WHERE o.idorder=@idorder";
+
+            using MySqlConnection connection = MySqlDbUtil.GetConnection();
+            connection.Open();
+
+            try
+            {
+                using MySqlCommand command = new MySqlCommand(getOrderString, connection);
+                command.Parameters.AddWithValue("@idorder", id);
+
+                using MySqlDataReader orderReader = command.ExecuteReader();
+
+                if (!orderReader.Read())
+                    return null;
+
+                long idorder = orderReader.GetInt64(0);
+                DateTime date = orderReader.GetDateTime(1);
+                long iduser = orderReader.GetInt64(2);
+                int price = orderReader.GetInt32(3);
+
+                IEnumerable<FilmToOrder> films = filmRepository.GetByOrder(idorder);
+
+                return new Order(id, iduser, date, price, films);
+
+            }
+            catch (MySqlException exception)
+            {
+                throw new RepositoryException(exception.Number, exception.Message);
+            }
         }
 
         public IEnumerable<Order> GetByUser(long idUser)

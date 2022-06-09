@@ -173,5 +173,47 @@ namespace OnlineCinema.Web.Repositories
                 throw new RepositoryException(exception.Number, exception.Message);
             }
         }
+
+        public IEnumerable<FilmToOrder> GetByOrder(long idorder)
+        {
+            List<FilmToOrder> films = new List<FilmToOrder>();
+            string getFilmsString = @"
+                            SELECT f.idfilm, f.title, f.category, f.release_date, fto.`type`,
+	                               IF(fto.`type`='Покупка', f.purchase_price, f.rental_price)
+                            FROM films AS f
+                            JOIN film_to_order AS fto ON fto.idfilm=f.idfilm
+                            WHERE fto.idorder=@idorder";
+
+            using MySqlConnection connection = MySqlDbUtil.GetConnection();
+            connection.Open();
+
+            try
+            {
+                using MySqlCommand command = new MySqlCommand(getFilmsString, connection);
+                command.Parameters.AddWithValue("@idorder", idorder);
+
+                using MySqlDataReader filmsReader = command.ExecuteReader();
+
+                while (filmsReader.Read())
+                {
+                    int idfilm = filmsReader.GetInt32(0);
+                    string title = filmsReader.GetString(1);
+                    string category = filmsReader.GetString(2);
+                    DateTime releasedate = filmsReader.GetDateTime(3);
+                    string type = filmsReader.GetString(4);
+                    int filmPrice = filmsReader.GetInt32(5);
+
+                    Film film = new Film(idfilm, title, category, releasedate);
+                    films.Add(new FilmToOrder(film, type, filmPrice));
+                }
+
+                return films;
+
+            }
+            catch (MySqlException exception)
+            {
+                throw new RepositoryException(exception.Number, exception.Message);
+            }
+        }
     }
 }
