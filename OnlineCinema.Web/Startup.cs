@@ -29,6 +29,7 @@ namespace OnlineCinema.Web
             services.AddTransient<DbUserService>();
             services.AddTransient<DbGenreService>();
             services.AddTransient<DbPersonService>();
+            services.AddTransient<DbOrderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
