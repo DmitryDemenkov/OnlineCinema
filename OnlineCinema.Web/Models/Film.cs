@@ -73,14 +73,17 @@ namespace OnlineCinema.Web.Models
 
     public struct FilmToOrder
     {
-        public FilmToOrder(Film film, string type)
+        public FilmToOrder(Film film, string type, int price)
         {
             Film = film;
             Type = type;
+            Price = price;
         }
 
         public Film Film { get; private set; }
 
         public string Type { get; private set; }
+
+        public int Price { get; private set; }
     }
 }
