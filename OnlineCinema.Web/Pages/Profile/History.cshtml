@@ -24,7 +24,7 @@
         @foreach (var order in Model.Orders)
         {
             <tr>
-                <td>#@order.Id</td>
+                <td><a asp-page="/Order" asp-route-id="@order.Id">#@order.Id</a></td>
                 <td>@order.Date.ToString("dd-MM-yyyy")</td>
                 <td>@order.FilmsAmount</td>
                 <td>@order.TotalCost</td>

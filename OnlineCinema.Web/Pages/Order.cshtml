@@ -1,0 +1,44 @@
+﻿@page
+@model OnlineCinema.Web.Pages.OrderModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Order";
+}
+
+<div class="display-1" style="margin-bottom: 2rem">
+    <h1>Заказ #@Model.Order.Id</h1>
+</div>
+<p>Дата @Model.Order.Date.ToString("dd MMMM yyyy HH:mm:ss")</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Фильм</th>
+            <th>Категория</th>
+            <th>Дата выхода</th>
+            <th>Тип покупки</th>
+            <th>Цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var film in Model.Order.Films)
+         {
+            <tr>
+                <td><a asp-page="/Film" asp-route-id="@film.Film.Id">@film.Film.Title</a></td>
+                <td>@film.Film.Category</td>
+                <td>@film.Film.ReleaseDate.ToString("dd-MM-yyyy")</td>
+                <td>@film.Type</td>
+                <td>@film.Price</td>
+            </tr>
+         }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Всего</th>
+            <th>@Model.Order.TotalCost</th>
+        </tr>
+    </tfoot>
+</table>
