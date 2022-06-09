@@ -14,11 +14,14 @@ namespace OnlineCinema.Web.Services
         {
             userRepository = new MySqlDbUserRepository();
             filmRepository = new MySqlDbFilmRepository();
+            orderRepository = new MySqlDbOrderRepository();
         }
 
         private IUserRepository userRepository;
 
         private IFilmRepository filmRepository;
+
+        private IOrderRepository orderRepository;
 
         public User GetByLogin(string login, string password, out int errorCode)
         {
@@ -74,6 +77,21 @@ namespace OnlineCinema.Web.Services
                 IEnumerable<FilmToLibrary> films = filmRepository.GetByUser(user.Id);
                 errorCode = 0;
                 return films;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+                return null;
+            }
+        }
+
+        public IEnumerable<Order> GetUsersHistory(long idUser, out int errorCode)
+        {
+            try
+            {
+                IEnumerable<Order> orders = orderRepository.GetByUser(idUser);
+                errorCode = 0;
+                return orders;
             }
             catch (RepositoryException exception)
             {
