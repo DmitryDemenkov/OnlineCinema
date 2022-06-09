@@ -70,4 +70,17 @@ namespace OnlineCinema.Web.Models
 
         public int TimeLeft { get; private set;  }
     }
+
+    public struct FilmToOrder
+    {
+        public FilmToOrder(Film film, string type)
+        {
+            Film = film;
+            Type = type;
+        }
+
+        public Film Film { get; private set; }
+
+        public string Type { get; private set; }
+    }
 }
