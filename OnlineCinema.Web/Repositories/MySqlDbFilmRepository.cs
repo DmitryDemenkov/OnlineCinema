@@ -215,5 +215,35 @@ namespace OnlineCinema.Web.Repositories
                 throw new RepositoryException(exception.Number, exception.Message);
             }
         }
+
+        public bool HasInLibrary(int idfilm, long iduser)
+        {
+            string commandString = @"
+                             SELECT f.idfilm
+                             FROM films AS f
+                             JOIN film_to_order ON film_to_order.idfilm=f.idfilm
+                             JOIN orders ON orders.idorder=film_to_order.idorder
+                             WHERE f.idfilm=@idfilm AND orders.iduser=@iduser AND 
+                             (film_to_order.`type` = 'Покупка' OR 
+                             DATE_ADD(orders.`date`, INTERVAL f.rental_duration HOUR) > NOW())";
+
+            using MySqlConnection connection = MySqlDbUtil.GetConnection();
+            connection.Open();
+
+            try
+            {
+                using MySqlCommand command = new MySqlCommand(commandString, connection);
+                command.Parameters.AddWithValue("@idfilm", idfilm);
+                command.Parameters.AddWithValue("@iduser", iduser);
+
+                using MySqlDataReader reader = command.ExecuteReader();
+
+                return reader.HasRows;
+            }
+            catch (MySqlException exception)
+            {
+                throw new RepositoryException(exception.Number, exception.Message);
+            }
+        }
     }
 }

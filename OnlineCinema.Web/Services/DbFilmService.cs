@@ -82,5 +82,10 @@ namespace OnlineCinema.Web.Services
                 return null;
             }
         }
+
+        public bool HasInLibrary(Film film, User user)
+        {
+            return filmRepository.HasInLibrary(film.Id, user.Id);
+        }
     }
 }
