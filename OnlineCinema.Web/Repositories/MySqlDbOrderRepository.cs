@@ -11,6 +11,50 @@ namespace OnlineCinema.Web.Repositories
 {
     public class MySqlDbOrderRepository : IOrderRepository
     {
+        public Order Append(Cart cart, User user)
+        {
+            Order order = null;
+            string appendOrderString = @"INSERT INTO orders (`date`, `iduser`)
+                                     VALUES (@date, @iduser)";
+
+            string appendFilmsString = @"INSERT INTO film_to_order (idfilm, idorder, `type`) VALUES ";
+
+            using MySqlConnection connection = MySqlDbUtil.GetConnection();
+            connection.Open();
+
+            try
+            {
+                using MySqlCommand appendOrderCommand = new MySqlCommand(appendOrderString, connection);
+                DateTime dateTime = DateTime.Now;
+                appendOrderCommand.Parameters.AddWithValue("@date", dateTime.ToString("yyyy-MM-dd HH-mm-ss"));
+                appendOrderCommand.Parameters.AddWithValue("@iduser", user.Id);
+
+                appendOrderCommand.ExecuteNonQuery();
+                long idorder = appendOrderCommand.LastInsertedId;
+
+                FilmToOrder lastFilm = cart.Films.Last();
+                foreach(FilmToOrder film in cart.Films)
+                {
+                    appendFilmsString += $"('{film.Film.Id}', '{idorder}', '{film.Type}')";
+
+                    if (film.Film.Id != lastFilm.Film.Id)
+                        appendFilmsString += ", ";
+                    else
+                        appendFilmsString += ";";
+                }
+
+                using MySqlCommand appendFilmsCommand = new MySqlCommand(appendFilmsString, connection);
+                appendFilmsCommand.ExecuteNonQuery();
+
+                order = new Order(idorder, user.Id, dateTime, cart.TotalCost, cart.Films);
+                return order;
+            }
+            catch (MySqlException exception)
+            {
+                throw new RepositoryException(exception.Number, exception.Message);
+            }
+        }
+
         public Order GetById(int id)
         {
             IFilmRepository filmRepository = new MySqlDbFilmRepository();

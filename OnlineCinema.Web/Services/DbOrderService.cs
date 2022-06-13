@@ -31,5 +31,20 @@ namespace OnlineCinema.Web.Services
                 return null;
             }
         }
+
+        public Order Append(Cart cart, User user, out int errorCode)
+        {
+            try
+            {
+                Order order = orderRepository.Append(cart, user);
+                errorCode = 0;
+                return order;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+                return null;
+            }
+        }
     }
 }

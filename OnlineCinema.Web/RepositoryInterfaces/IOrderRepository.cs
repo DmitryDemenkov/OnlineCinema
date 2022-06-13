@@ -9,5 +9,7 @@ namespace OnlineCinema.Web.RepositoryInterfaces
     interface IOrderRepository : IRepository<Order>
     {
         IEnumerable<Order> GetByUser(long idUser);
+
+        Order Append(Cart cart, User user);
     }
 }
