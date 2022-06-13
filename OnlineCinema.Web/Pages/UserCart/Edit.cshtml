@@ -1,0 +1,49 @@
+﻿@page
+@model OnlineCinema.Web.Pages.UserCart.EditModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Cart";
+}
+
+<div>
+    <h1>Редактирование заказа</h1>
+</div>
+
+
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Фильм</th>
+                <th>Цена покупки</th>
+                <th>Цена аренды</th>
+                <th>Время аренды</th>
+                <th>Тип покупки</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Film.Film.Title (@Model.Film.Film.ReleaseDate.Year)</td>
+                <td>@Model.Film.Film.PurchasePrice</td>
+                <td>@Model.Film.Film.RentalPrice</td>
+                <td>@Model.Film.Film.RentalDuration</td>
+                <td>
+                    <select asp-for="@Model.CurrentType">
+                        <option value="Аренда">Аренда</option>
+                        <option value="Покупка">Покупка</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th><button type="submit" asp-page-handler="Update" asp-route-id="@Model.Film.Film.Id">Подтвердить</button></th>
+                <th><button type="submit" asp-page-handler="Delete" asp-route-id="@Model.Film.Film.Id">Удалить</button></th>
+            </tr>
+        </tfoot>
+    </table>
+</form>
+

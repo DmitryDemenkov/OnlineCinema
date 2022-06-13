@@ -1,0 +1,54 @@
+﻿@page
+@model OnlineCinema.Web.Pages.UserCart.IndexModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Cart";
+}
+
+<div>
+    <h1>Корзина</h1>
+</div>
+
+@if (Model.Cart.Length > 0)
+{
+    <form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Фильм</th>
+                <th>Цена покупки</th>
+                <th>Цена аренды</th>
+                <th>Время аренды</th>
+                <th>Тип покупки</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var film in Model.Cart.Films)
+            {
+                <tr>
+                    <td><a asp-page="/Film" asp-route-id="@film.Film.Id">@film.Film.Title (@film.Film.ReleaseDate.Year)</a></td>
+                    <td>@film.Film.PurchasePrice</td>
+                    <td>@film.Film.RentalPrice</td>
+                    <td>@film.Film.RentalDuration</td>
+                    <td>@film.Type</td>
+                    <td><button type="submit" asp-page-handler="Edit" asp-route-id="@film.Film.Id">Редактировать</button></td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Всего</th>
+                <th>@Model.Cart.TotalCost</th>
+                <th><button type="submit" asp-page-handler="Append">Оформить</button></th>
+            </tr>
+        </tfoot>
+    </table>    
+    </form>
+}
+else
+{
+    <p>Корзина пуста</p>
+}
