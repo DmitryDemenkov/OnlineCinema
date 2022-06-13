@@ -20,6 +20,7 @@ namespace OnlineCinema.Web.Pages.Profile
         public IActionResult OnPostYes()
         {
             Response.Cookies.Delete("User");
+            Response.Cookies.Delete("Cart");
             return RedirectToPage("/Index");
         }
 

@@ -40,13 +40,27 @@
                 <h2>@Model.Film.MiddleRating.ToString("0.00")★</h2>
                 <p1>Оценок: @Model.Film.RatingAmount</p1>
             </div>
-            <div class="film-information-item">
-                <h2>Приобретение</h2>
-                <ul>
-                    <li>Покупка: @Model.Film.PurchasePrice р.</li>
-                    <li>Аренда: @Model.Film.RentalPrice р. на @Model.Film.RentalDuration ч.</li>
-                </ul>
-            </div>
+            <form method="post">
+                <div class="film-information-item">
+                    <h2>Приобретение</h2>
+                    <ul>
+                        <li>Покупка: @Model.Film.PurchasePrice р.</li>
+                        <li>Аренда: @Model.Film.RentalPrice р. на @Model.Film.RentalDuration ч.</li>
+                    </ul>
+                    @if (Model.State == FilmModel.PurchaseState.PURCHASE)
+                    {
+                        <input type="submit" asp-route-id="@Model.idFilm" value="Добавить в корзину">
+                    }
+                    else if (Model.State == FilmModel.PurchaseState.LIBRARY)
+                    {
+                        <a asp-page="/Profile/Library">В Библиотеке</a>
+                    }
+                    else if (Model.State == FilmModel.PurchaseState.CART)
+                    {
+                        <a asp-page="/UserCart/Index">В Корзине</a>
+                    }
+                </div>
+            </form>
         </div>
     </div>
     <div>
