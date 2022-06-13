@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace OnlineCinema.Web.Models
@@ -15,8 +16,9 @@ namespace OnlineCinema.Web.Models
             ReleaseDate = releaseDate;
         }
 
+        [JsonConstructor]
         public Film(int id, string title, string category, string annotation, DateTime releaseDate,
-                            int purchasePrise, int rentalPrice, int rentalDuration, string ageRestriction,
+                            int purchasePrice, int rentalPrice, int rentalDuration, string ageRestriction,
                             float middleRating, int ratingAmount)
         {
             Id = id;
@@ -24,7 +26,7 @@ namespace OnlineCinema.Web.Models
             Category = category;
             Annotation = annotation;
             ReleaseDate = releaseDate;
-            PurchasePrice = purchasePrise;
+            PurchasePrice = purchasePrice;
             RentalPrice = rentalPrice;
             RentalDuration = rentalDuration;
             AgeRestriction = ageRestriction;
@@ -71,7 +73,7 @@ namespace OnlineCinema.Web.Models
         public int TimeLeft { get; private set;  }
     }
 
-    public struct FilmToOrder
+    public class FilmToOrder
     {
         public FilmToOrder(Film film, string type, int price)
         {
@@ -82,8 +84,8 @@ namespace OnlineCinema.Web.Models
 
         public Film Film { get; private set; }
 
-        public string Type { get; private set; }
+        public string Type { get; set; }
 
-        public int Price { get; private set; }
+        public int Price { get; set; }
     }
 }
