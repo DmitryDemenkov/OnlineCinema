@@ -38,7 +38,7 @@
             </div>
             <div class="film-information-item">
                 <h2>@Model.Film.MiddleRating.ToString("0.00")★</h2>
-                <p1>Оценок: @Model.Film.RatingAmount</p1>
+                <p1><a asp-page="/Ratings/Index" asp-route-id="@Model.Film.Id">Оценок: @Model.Film.RatingAmount</a></p1>
             </div>
             <form method="post">
                 <div class="film-information-item">

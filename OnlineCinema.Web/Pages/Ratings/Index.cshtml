@@ -1,0 +1,54 @@
+﻿@page
+@model OnlineCinema.Web.Pages.Ratings.IndexModel
+@{
+    ViewData["Title"] = "Ratings";
+}
+
+<div class="display-1" style="margin-bottom: 2rem">
+    <h1>Оценки фильма 
+        <a asp-page="/Film" asp-route-id="@Model.Film.Id">
+            @Model.Film.Title (@Model.Film.ReleaseDate.Year)
+        </a>
+    </h1>
+</div>
+
+@if (Model.Ratings.Count() > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Пользователь</th>
+                <th>Экшен</th>
+                <th>Актерская игра</th>
+                <th>Сюжет</th>
+                <th>Спецэффект</th>
+                <th>Средняя</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>@Model.Ratings.First().UserName</th>
+                <th>@Model.Ratings.First().Action.ToString("0.00")</th>
+                <th>@Model.Ratings.First().ActorPlay.ToString("0.00")</th>
+                <th>@Model.Ratings.First().Plot.ToString("0.00")</th>
+                <th>@Model.Ratings.First().Effects.ToString("0.00")</th>
+                <th>@Model.Ratings.First().Middle.ToString("0.00")</th>
+            </tr>
+            @for (int i = 1; i < Model.Ratings.Count(); i++)
+            {
+                <tr>
+                    <td>@Model.Ratings.ElementAt(i).UserName</td>
+                    <td>@Model.Ratings.ElementAt(i).Action.ToString("0")</td>
+                    <td>@Model.Ratings.ElementAt(i).ActorPlay.ToString("0")</td>
+                    <td>@Model.Ratings.ElementAt(i).Plot.ToString("0")</td>
+                    <td>@Model.Ratings.ElementAt(i).Effects.ToString("0")</td>
+                    <td>@Model.Ratings.ElementAt(i).Middle.ToString("0.00")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p1>Оценок пока нет</p1>
+}
