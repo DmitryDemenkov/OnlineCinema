@@ -15,18 +15,18 @@ namespace OnlineCinema.Web.Repositories
         {
             List<Rating> ratings = new List<Rating>();
             string commandString = @"
-                            SELECT 'В среднем', AVG(r.`action`), AVG(r.actor_play), AVG(r.plot), AVG(r.effects), 
+                            SELECT 'В среднем', '0', AVG(r.`action`), AVG(r.actor_play), AVG(r.plot), AVG(r.effects), 
                                     AVG(ROUND((r.`action` +r.actor_play + r.plot + r.effects) / 4, 2)) AS mid
                             FROM ratings AS r
                             WHERE idfilm=@idfilm
                             UNION
-                            SELECT users.login, r.`action`, r.actor_play, r.plot, r.effects, 
+                            SELECT users.login, r.iduser, r.`action`, r.actor_play, r.plot, r.effects, 
 		                            ROUND((r.`action` +r.actor_play + r.plot + r.effects) / 4, 2) AS mid
                             FROM ratings AS r
                             JOIN users ON r.iduser = users.iduser
                             WHERE idfilm=@idfilm AND r.iduser=@iduser
                             UNION
-                            SELECT users.login, r.`action`, r.actor_play, r.plot, r.effects, 
+                            SELECT users.login, r.iduser, r.`action`, r.actor_play, r.plot, r.effects, 
 		                            ROUND((r.`action` +r.actor_play + r.plot + r.effects) / 4, 2) AS mid
                             FROM ratings AS r
                             JOIN users ON r.iduser = users.iduser
@@ -46,13 +46,15 @@ namespace OnlineCinema.Web.Repositories
                 while (reader.Read())
                 {
                     string userName = reader.GetString(0);
-                    float action = reader.GetFloat(1);
-                    float actorPlay = reader.GetFloat(2);
-                    float plot = reader.GetFloat(3);
-                    float effects = reader.GetFloat(4);
-                    float middle = reader.GetFloat(5);
+                    long userid = reader.GetInt64(1);
+                    float action = reader.GetFloat(2);
+                    float actorPlay = reader.GetFloat(3);
+                    float plot = reader.GetFloat(4);
+                    float effects = reader.GetFloat(5);
+                    float middle = reader.GetFloat(6);
 
-                    ratings.Add(new Rating(userName, action, actorPlay, plot, effects, middle));
+                    User user = new User(userid, userName);
+                    ratings.Add(new Rating(user, action, actorPlay, plot, effects, middle));
                 }
                 
                 return ratings;

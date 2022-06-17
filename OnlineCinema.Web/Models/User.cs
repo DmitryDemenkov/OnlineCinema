@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace OnlineCinema.Web.Models
 {
     public class User
     {
+        [JsonConstructor]
         public User(string login, string password, string email, DateTime birthDate = default, long id = 0) 
         {
             Id = id;
@@ -14,6 +16,12 @@ namespace OnlineCinema.Web.Models
             Password = password;
             Email = email;
             BirthDate = birthDate;
+        }
+
+        public User(long id, string login)
+        {
+            Id = id;
+            Login = login;
         }
 
         public long Id { get; private set; }

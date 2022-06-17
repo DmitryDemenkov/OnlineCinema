@@ -27,7 +27,7 @@
         </thead>
         <tbody>
             <tr>
-                <th>@Model.Ratings.First().UserName</th>
+                <th>@Model.Ratings.First().User.Login</th>
                 <th>@Model.Ratings.First().Action.ToString("0.00")</th>
                 <th>@Model.Ratings.First().ActorPlay.ToString("0.00")</th>
                 <th>@Model.Ratings.First().Plot.ToString("0.00")</th>
@@ -37,7 +37,7 @@
             @for (int i = 1; i < Model.Ratings.Count(); i++)
             {
                 <tr>
-                    <td>@Model.Ratings.ElementAt(i).UserName</td>
+                    <td>@Model.Ratings.ElementAt(i).User.Login</td>
                     <td>@Model.Ratings.ElementAt(i).Action.ToString("0")</td>
                     <td>@Model.Ratings.ElementAt(i).ActorPlay.ToString("0")</td>
                     <td>@Model.Ratings.ElementAt(i).Plot.ToString("0")</td>

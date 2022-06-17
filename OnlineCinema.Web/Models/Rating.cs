@@ -7,9 +7,9 @@ namespace OnlineCinema.Web.Models
 {
     public class Rating
     {
-        public Rating(string userName, float action, float actorPlay, float plot, float effects, float middle)
+        public Rating(User user, float action, float actorPlay, float plot, float effects, float middle)
         {
-            UserName = userName;
+            User = user;
             Action = action;
             ActorPlay = actorPlay;
             Plot = plot;
@@ -27,7 +27,7 @@ namespace OnlineCinema.Web.Models
             Middle = middle;
         }
 
-        public string UserName { get; private set; }
+        public User User { get; private set; }
 
         public Film Film { get; private set; }
 
