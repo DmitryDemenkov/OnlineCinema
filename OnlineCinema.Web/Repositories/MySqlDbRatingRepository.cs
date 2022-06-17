@@ -117,7 +117,47 @@ namespace OnlineCinema.Web.Repositories
 
         public IEnumerable<Rating> GetByUser(long iduser)
         {
-            throw new NotImplementedException();
+            List<Rating> ratings = new List<Rating>();
+            string commandString = @"
+                                    SELECT f.idfilm, f.title, f.category, f.release_date,
+                                           r.`action`, r.actor_play, r.plot, r.effects, 
+		                                   ROUND((r.`action` + r.actor_play + r.plot + r.effects) / 4, 2) AS mid
+                                    FROM ratings AS r
+                                    JOIN films AS f ON r.idfilm=f.idfilm
+                                    WHERE r.iduser=@iduser";
+
+            using MySqlConnection connection = MySqlDbUtil.GetConnection();
+            connection.Open();
+
+            try
+            {
+                using MySqlCommand command = new MySqlCommand(commandString, connection);
+                command.Parameters.AddWithValue("@iduser", iduser);
+
+                using MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int idfilm = reader.GetInt32(0);
+                    string title = reader.GetString(1);
+                    string category = reader.GetString(2);
+                    DateTime releaseDate = reader.GetDateTime(3);
+                    float action = reader.GetFloat(4);
+                    float actorPlay = reader.GetFloat(5);
+                    float plot = reader.GetFloat(6);
+                    float effects = reader.GetFloat(7);
+                    float middle = reader.GetFloat(8);
+
+                    Film film = new Film(idfilm, title, category, releaseDate);
+                    ratings.Add(new Rating(film, action, actorPlay, plot, effects, middle));
+                }
+                
+                return ratings;
+            }
+            catch (MySqlException exception)
+            {
+                throw new RepositoryException(exception.Number, exception.Message);
+            }
         }
 
         public Rating GetRating(int idfilm, long iduser)

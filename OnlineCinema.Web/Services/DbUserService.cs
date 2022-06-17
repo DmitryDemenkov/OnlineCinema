@@ -15,6 +15,7 @@ namespace OnlineCinema.Web.Services
             userRepository = new MySqlDbUserRepository();
             filmRepository = new MySqlDbFilmRepository();
             orderRepository = new MySqlDbOrderRepository();
+            ratingRepository = new MySqlDbRatingRepository();
         }
 
         private IUserRepository userRepository;
@@ -22,6 +23,8 @@ namespace OnlineCinema.Web.Services
         private IFilmRepository filmRepository;
 
         private IOrderRepository orderRepository;
+
+        private IRatingRepository ratingRepository;
 
         public User GetByLogin(string login, string password, out int errorCode)
         {
@@ -92,6 +95,21 @@ namespace OnlineCinema.Web.Services
                 IEnumerable<Order> orders = orderRepository.GetByUser(idUser);
                 errorCode = 0;
                 return orders;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+                return null;
+            }
+        }
+
+        public IEnumerable<Rating> GetUsersRatings(User user, out int errorCode)
+        {
+            try
+            {
+                IEnumerable<Rating> ratings = ratingRepository.GetByUser(user.Id);
+                errorCode = 0;
+                return ratings;
             }
             catch (RepositoryException exception)
             {
