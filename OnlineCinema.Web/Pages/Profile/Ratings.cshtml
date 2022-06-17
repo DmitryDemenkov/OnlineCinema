@@ -1,0 +1,47 @@
+﻿@page
+@model OnlineCinema.Web.Pages.Profile.RatingsModel
+@{
+    Layout = "_ProfileHeader";
+    ViewData["Title"] = "Ratings";
+}
+
+<div>
+    <h1>Оценки</h1>
+</div>
+
+@if (Model.Ratings.Count() > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Фильм</th>
+                <th>Экшен</th>
+                <th>Актерская игра</th>
+                <th>Сюжет</th>
+                <th>Спецэффекты</th>
+                <th>Средняя</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var rating in Model.Ratings)
+            {
+                <tr>
+                    <td>
+                        <a asp-page="/Ratings/Index" asp-route-id="@rating.Film.Id">
+                            @rating.Film.Title (@rating.Film.ReleaseDate.Year)
+                        </a>
+                    </td>
+                    <td>@rating.Action</td>
+                    <td>@rating.ActorPlay</td>
+                    <td>@rating.Plot</td>
+                    <td>@rating.Effects</td>
+                    <td>@rating.Middle</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p1>Оценок нет</p1>
+}
