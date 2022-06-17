@@ -35,5 +35,63 @@ namespace OnlineCinema.Web.Services
                 return null;
             }
         }
+
+        public Rating GetRating(Film film, User user, out int errorCode)
+        {
+            try
+            {
+                Rating rating = RatingRepository.GetRating(film.Id, user.Id);
+                errorCode = 0;
+                return rating;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+                return null;
+            }
+        }
+
+        public Rating AppendRating(int idfilm, Rating rating, out int errorCode)
+        {
+            try
+            {
+                Rating newRating = RatingRepository.Append(rating, idfilm);
+                errorCode = 0;
+                return rating;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+                return null;
+            }
+        }
+
+        public Rating UpdateRating(int idfilm, Rating rating, out int errorCode)
+        {
+            try
+            {
+                Rating updatedRating = RatingRepository.Update(rating, idfilm);
+                errorCode = 0;
+                return rating;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+                return null;
+            }
+        }
+
+        public void DeleteRating(long iduser, int idfilm, out int errorCode)
+        {
+            try
+            {
+                RatingRepository.Delete(iduser, idfilm);
+                errorCode = 0;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+            }
+        }
     }
 }
