@@ -1,0 +1,83 @@
+﻿@page
+@model OnlineCinema.Web.Pages.Ratings.EditModel
+@{
+    ViewData["Title"] = "Ratings";
+}
+
+<div class="display-1" style="margin-bottom: 2rem">
+    <h1>
+        Добавить оценку
+        <a asp-page="/Film" asp-route-id="@Model.Film.Id">
+            @Model.Film.Title (@Model.Film.ReleaseDate.Year)
+        </a>
+    </h1>
+</div>
+
+<form method="post">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Экшен</th>
+                <td>
+                    <select asp-for="@Model.Action">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Актерская игра</th>
+                <td>
+                    <select asp-for="@Model.ActorPlay">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Сюжет</th>
+                <td>
+                    <select asp-for="@Model.Plot">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Эффекты</th>
+                <td>
+                    <select asp-for="@Model.Effects">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <button asp-page-handler="Confirm">Подтвердить</button>
+                </td>
+                <td>
+                    <button asp-page-handler="Delete">Удалить</button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div>
+        <input type="hidden" asp-for="@Model.IdFilm" />
+        <input type="hidden" asp-for="@Model.Type" />
+    </div>
+</form>
