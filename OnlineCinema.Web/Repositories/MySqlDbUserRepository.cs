@@ -49,7 +49,22 @@ namespace OnlineCinema.Web.Repositories
 
         public void Delete(User user)
         {
-            throw new NotImplementedException();
+            string commandString = @"CALL drop_user(@iduser)";
+
+            using MySqlConnection connection = MySqlDbUtil.GetConnection();
+            connection.Open();
+
+            try
+            {
+                using MySqlCommand command = new MySqlCommand(commandString, connection);
+                command.Parameters.AddWithValue("@iduser", user.Id);
+
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException exception)
+            {
+                throw new RepositoryException(exception.Number, exception.Message);
+            }
         }
 
         public User GetById(int id)

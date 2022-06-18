@@ -117,5 +117,18 @@ namespace OnlineCinema.Web.Services
                 return null;
             }
         }
+
+        public void RemoveUser(User user, out int errorCode)
+        {
+            try
+            {
+                userRepository.Delete(user);
+                errorCode = 0;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+            }
+        }
     }
 }
