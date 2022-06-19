@@ -12,8 +12,6 @@ namespace OnlineCinema.Web.RepositoryInterfaces
 
         IEnumerable<FilmToLibrary> GetByUser(long iduser);
 
-        IEnumerable<FilmToOrder> GetByOrder(long idorder);
-
         IEnumerable<Film> GetByGenre(int idgenre);
 
         bool HasInLibrary(int idfilm, long iduser);

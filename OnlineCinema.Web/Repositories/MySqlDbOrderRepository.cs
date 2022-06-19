@@ -57,7 +57,6 @@ namespace OnlineCinema.Web.Repositories
 
         public Order GetById(int id)
         {
-            IFilmRepository filmRepository = new MySqlDbFilmRepository();
             string getOrderString = @"
                             SELECT o.idorder, o.`date`, o.iduser,
                                    SUM(IF(film_to_order.`type`='Покупка', films.purchase_price, films.rental_price))
@@ -66,15 +65,22 @@ namespace OnlineCinema.Web.Repositories
                             JOIN films ON films.idfilm=film_to_order.idfilm
                             WHERE o.idorder=@idorder";
 
+            string getFilmsString = @"
+                            SELECT f.idfilm, f.title, f.category, f.release_date, fto.`type`,
+	                               IF(fto.`type`='Покупка', f.purchase_price, f.rental_price)
+                            FROM films AS f
+                            JOIN film_to_order AS fto ON fto.idfilm=f.idfilm
+                            WHERE fto.idorder=@idorder";
+
             using MySqlConnection connection = MySqlDbUtil.GetConnection();
             connection.Open();
 
             try
             {
-                using MySqlCommand command = new MySqlCommand(getOrderString, connection);
-                command.Parameters.AddWithValue("@idorder", id);
+                using MySqlCommand getOrderCommand = new MySqlCommand(getOrderString, connection);
+                getOrderCommand.Parameters.AddWithValue("@idorder", id);
 
-                using MySqlDataReader orderReader = command.ExecuteReader();
+                using MySqlDataReader orderReader = getOrderCommand.ExecuteReader();
 
                 if (!orderReader.Read())
                     return null;
@@ -84,7 +90,27 @@ namespace OnlineCinema.Web.Repositories
                 long iduser = orderReader.GetInt64(2);
                 int price = orderReader.GetInt32(3);
 
-                IEnumerable<FilmToOrder> films = filmRepository.GetByOrder(idorder);
+                orderReader.Close();
+
+                List<FilmToOrder> films = new List<FilmToOrder>();
+
+                using MySqlCommand getFilmsCommand = new MySqlCommand(getFilmsString, connection);
+                getFilmsCommand.Parameters.AddWithValue("@idorder", idorder);
+
+                using MySqlDataReader filmsReader = getFilmsCommand.ExecuteReader();
+
+                while (filmsReader.Read())
+                {
+                    int idfilm = filmsReader.GetInt32(0);
+                    string title = filmsReader.GetString(1);
+                    string category = filmsReader.GetString(2);
+                    DateTime releasedate = filmsReader.GetDateTime(3);
+                    string type = filmsReader.GetString(4);
+                    int filmPrice = filmsReader.GetInt32(5);
+
+                    Film film = new Film(idfilm, title, category, releasedate);
+                    films.Add(new FilmToOrder(film, type, filmPrice));
+                }
 
                 return new Order(id, iduser, date, price, films);
 
