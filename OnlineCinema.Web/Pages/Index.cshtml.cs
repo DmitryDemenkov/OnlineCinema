@@ -18,6 +18,9 @@ namespace OnlineCinema.Web.Pages
 
         public IEnumerable<Film> Films { get; private set; }
 
+        [BindProperty (SupportsGet = true)]
+        public string Title { get; set; }
+
         public IndexModel(ILogger<IndexModel> logger, DbFilmService dbFilmService)
         {
             _logger = logger;
@@ -26,8 +29,13 @@ namespace OnlineCinema.Web.Pages
 
         public IActionResult OnGet()
         {
-            Films = filmService.GetPopularFilms(out int errorCode);
-            if (Films == null)
+            int errorCode;
+            if (Title == null)
+                Films = filmService.GetPopularFilms(out errorCode);
+            else
+                Films = filmService.GetFilmsByTitle(Title, out errorCode);
+            
+            if (errorCode != 0)
             {
                 return Redirect($"/Error?DbError={errorCode}");
             }

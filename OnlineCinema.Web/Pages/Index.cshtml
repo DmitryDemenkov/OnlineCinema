@@ -8,6 +8,14 @@
     <h1 class="display-4">Популярные фильмы</h1>
 </div>
 
+<form method="get">
+    <div class="finding">
+        🔎
+        <input class="finding-text" asp-for="@Model.Title" />
+        <input type="submit" value="Найти" />
+    </div>
+</form>
+
 @if (Model.Films != null)
 {
     <div class="card-columns">
@@ -23,4 +31,8 @@
             </div>
         }
     </div>
+}
+else
+{
+    <p1>Фильмов по данному запросу нет</p1>
 }

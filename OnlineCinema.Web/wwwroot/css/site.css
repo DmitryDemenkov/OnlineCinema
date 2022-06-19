@@ -168,3 +168,16 @@ body {
 .card-line .card {
     min-width: fit-content;
 }
+
+.finding {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.finding-text {
+    width: 50%;
+    margin-inline: 0.5rem;
+}
