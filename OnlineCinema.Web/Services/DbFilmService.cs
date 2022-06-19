@@ -38,6 +38,21 @@ namespace OnlineCinema.Web.Services
             }
         }
 
+        public IEnumerable<Film> GetFilmsByTitle(string title, out int errorCode)
+        {
+            try
+            {
+                IEnumerable<Film> films = filmRepository.GetByTitle(title);
+                errorCode = 0;
+                return films;
+            }
+            catch (RepositoryException exception)
+            {
+                errorCode = exception.ErrorCode;
+                return null;
+            }
+        }
+
         public Film GetFilm(int idfilm, out int errorCode)
         {
             try

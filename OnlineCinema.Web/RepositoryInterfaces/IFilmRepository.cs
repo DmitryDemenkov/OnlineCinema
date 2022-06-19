@@ -14,6 +14,8 @@ namespace OnlineCinema.Web.RepositoryInterfaces
 
         IEnumerable<Film> GetByGenre(int idgenre);
 
+        IEnumerable<Film> GetByTitle(string title);
+
         bool HasInLibrary(int idfilm, long iduser);
     }
 }
