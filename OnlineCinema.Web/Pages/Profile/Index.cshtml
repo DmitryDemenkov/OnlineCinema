@@ -17,7 +17,14 @@
     <p1>Электронныя почта</p1>
     <p><strong>@Model.IdentifiedUser.Email</strong></p>
     <p1>Дата рождения</p1>
-    <p><strong>@Model.IdentifiedUser.BirthDate.ToString("dd MMMM yyyy")</strong></p>
+    @if (Model.IdentifiedUser.BirthDate != default)
+    {
+        <p><strong>@Model.IdentifiedUser.BirthDate.ToString("dd MMMM yyyy")</strong></p>
+    }
+    else
+    {
+        <p><strong>Не указано</strong></p>
+    }
 </div>
 
 <form method="get">
